@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Redundancy Removal System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <h1>Data Redundancy Removal System</h1>
+        <p class="subtitle">Validate records and prevent duplicate emails.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="message {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <section class="panel">
+            <h2>Add New Record</h2>
+            <form method="POST">
+                <label for="name">Full Name</label>
+                <input id="name" name="name" type="text"
+                       maxlength="80" required>
+
+                <label for="email">Email Address</label>
+                <input id="email" name="email" type="email"
+                       maxlength="254" required>
+
+                <label for="phone">Phone Number</label>
+                <input id="phone" name="phone" type="tel"
+                       maxlength="20" required>
+
+                <button type="submit">Validate and Save</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <h2>Saved Records ({{ records|length }})</h2>
+
+            {% if records %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                                <tr>
+                                    <td>{{ record.id }}</td>
+                                    <td>{{ record.name }}</td>
+                                    <td>{{ record.email }}</td>
+                                    <td>{{ record.phone }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No records yet. Add your first record above.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
